@@ -111,6 +111,21 @@ export class UsuarioController {
     return this.usuarioRepository.findById(id, filter);
   }
 
+  @get('/usuariosPorNombre/{Nombre}')
+  @response(200, {
+    description: 'Usuario model instance',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Usuario, {includeRelations: true}),
+      },
+    },
+  })
+  async findName(
+    @param.path.string('Nombre') Nombre: string,
+  ): Promise<Usuario[]> {
+    return this.usuarioRepository.find({where: {Nombre:Nombre}});
+  }
+  
   @patch('/usuarios/{id}')
   @response(204, {
     description: 'Usuario PATCH success',
